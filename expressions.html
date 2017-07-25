@@ -1,0 +1,623 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Expressions &mdash; The Lean Reference Manual master documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="The Lean Reference Manual master documentation" href="index.html"/>
+        <link rel="next" title="Declarations" href="declarations.html"/>
+        <link rel="prev" title="The Lean Reference Manual" href="index.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> The Lean Reference Manual
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                master
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Expressions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#universes">Universes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#expression-syntax">Expression Syntax</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#implicit-arguments">Implicit Arguments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#basic-data-types-and-assertions">Basic Data Types and Assertions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#constructors-projections-and-matching">Constructors, Projections, and Matching</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#structured-proofs">Structured Proofs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#computation">Computation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#axioms">Axioms</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="declarations.html">Declarations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="infrastructure.html">Infrastructure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tactics.html">Tactics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="programming.html">Programming</a></li>
+<li class="toctree-l1"><a class="reference internal" href="libraries.html">Libraries</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">The Lean Reference Manual</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Expressions</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/expressions.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="expressions">
+<h1>Expressions<a class="headerlink" href="#expressions" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="universes">
+<h2>Universes<a class="headerlink" href="#universes" title="Permalink to this headline">¶</a></h2>
+<p>Every type in Lean is, by definition, an expression of type <code class="docutils literal"><span class="pre">Sort</span> <span class="pre">u</span></code> for some universe level <code class="docutils literal"><span class="pre">u</span></code>. A universe level is one of the following:</p>
+<ul class="simple">
+<li>a natural number, <code class="docutils literal"><span class="pre">n</span></code></li>
+<li>a universe variable, <code class="docutils literal"><span class="pre">u</span></code> (declared with the command <code class="docutils literal"><span class="pre">universe</span></code> or <code class="docutils literal"><span class="pre">universes</span></code>)</li>
+<li>an expression <code class="docutils literal"><span class="pre">u</span> <span class="pre">+</span> <span class="pre">n</span></code>, where <code class="docutils literal"><span class="pre">u</span></code> is a universe level and <code class="docutils literal"><span class="pre">n</span></code> is a natural number</li>
+<li>an expression <code class="docutils literal"><span class="pre">max</span> <span class="pre">u</span> <span class="pre">v</span></code>, where <code class="docutils literal"><span class="pre">u</span></code> and <code class="docutils literal"><span class="pre">v</span></code> are universes</li>
+<li>an expression <code class="docutils literal"><span class="pre">imax</span> <span class="pre">u</span> <span class="pre">v</span></code>, where <code class="docutils literal"><span class="pre">u</span></code> and <code class="docutils literal"><span class="pre">v</span></code> are universe levels</li>
+</ul>
+<p>The last one denotes the universe level <code class="docutils literal"><span class="pre">0</span></code> if <code class="docutils literal"><span class="pre">v</span></code> is <code class="docutils literal"><span class="pre">0</span></code>, and <code class="docutils literal"><span class="pre">max</span> <span class="pre">u</span> <span class="pre">v</span></code> otherwise.</p>
+<p><strong>Examples</strong></p>
+<div class="highlight-lean"><div class="highlight"><pre><span></span><span class="n">universes</span> <span class="n">u</span> <span class="n">v</span>
+
+<span class="bp">#</span><span class="kn">check</span> <span class="n">Sort</span> <span class="n">u</span>
+<span class="bp">#</span><span class="kn">check</span> <span class="n">Sort</span> <span class="mi">5</span>
+<span class="bp">#</span><span class="kn">check</span> <span class="n">Sort</span> <span class="o">(</span><span class="n">u</span> <span class="bp">+</span> <span class="mi">1</span><span class="o">)</span>
+<span class="bp">#</span><span class="kn">check</span> <span class="n">Sort</span> <span class="o">(</span><span class="n">u</span> <span class="bp">+</span> <span class="mi">3</span><span class="o">)</span>
+<span class="bp">#</span><span class="kn">check</span> <span class="n">Sort</span> <span class="o">(</span><span class="n">max</span> <span class="n">u</span> <span class="n">v</span><span class="o">)</span>
+<span class="bp">#</span><span class="kn">check</span> <span class="n">Sort</span> <span class="o">(</span><span class="n">max</span> <span class="o">(</span><span class="n">u</span> <span class="bp">+</span> <span class="mi">3</span><span class="o">)</span> <span class="n">v</span><span class="o">)</span>
+<span class="bp">#</span><span class="kn">check</span> <span class="n">Sort</span> <span class="o">(</span><span class="n">imax</span> <span class="o">(</span><span class="n">u</span> <span class="bp">+</span> <span class="mi">3</span><span class="o">)</span> <span class="n">v</span><span class="o">)</span>
+<span class="bp">#</span><span class="kn">check</span> <span class="kt">Prop</span>
+<span class="bp">#</span><span class="kn">check</span> <span class="kt">Type</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="expression-syntax">
+<h2>Expression Syntax<a class="headerlink" href="#expression-syntax" title="Permalink to this headline">¶</a></h2>
+<p>The set of expressions in Lean is defined inductively as follows:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">Sort</span> <span class="pre">u</span></code> : the universe of types at universe level <code class="docutils literal"><span class="pre">u</span></code></li>
+<li><code class="docutils literal"><span class="pre">c</span></code> : where <code class="docutils literal"><span class="pre">c</span></code> is an identifier denoting an axiomatically declared constant or a defined object</li>
+<li><code class="docutils literal"><span class="pre">x</span></code> : where <code class="docutils literal"><span class="pre">x</span></code> is a variable the local context in which the expression is interpreted</li>
+<li><code class="docutils literal"><span class="pre">Π</span> <span class="pre">x</span> <span class="pre">:</span> <span class="pre">α,</span> <span class="pre">β</span></code> : the type of functions taking an element <code class="docutils literal"><span class="pre">x</span></code> of <code class="docutils literal"><span class="pre">α</span></code> to an element of <code class="docutils literal"><span class="pre">β</span></code>, where <code class="docutils literal"><span class="pre">β</span></code> is an expression whose type is a <code class="docutils literal"><span class="pre">Sort</span></code></li>
+<li><code class="docutils literal"><span class="pre">s</span> <span class="pre">t</span></code> : the result of applying <code class="docutils literal"><span class="pre">s</span></code> to <code class="docutils literal"><span class="pre">t</span></code>, where <code class="docutils literal"><span class="pre">s</span></code> and <code class="docutils literal"><span class="pre">t</span></code> are expressions</li>
+<li><code class="docutils literal"><span class="pre">λ</span> <span class="pre">x</span> <span class="pre">:</span> <span class="pre">α,</span> <span class="pre">t</span></code> : the function mapping any value <code class="docutils literal"><span class="pre">x</span></code> of type <code class="docutils literal"><span class="pre">α</span></code> to <code class="docutils literal"><span class="pre">t</span></code>, where <code class="docutils literal"><span class="pre">t</span></code> is an expression</li>
+<li><code class="docutils literal"><span class="pre">let</span> <span class="pre">x</span> <span class="pre">:=</span> <span class="pre">t</span> <span class="pre">in</span> <span class="pre">s</span></code> : a local definition, denote the value of <code class="docutils literal"><span class="pre">s</span></code> when <code class="docutils literal"><span class="pre">x</span></code> denotes <code class="docutils literal"><span class="pre">t</span></code></li>
+</ul>
+<p>Every well formed term in Lean has a <em>type</em>, which itself is an expression of type <code class="docutils literal"><span class="pre">Sort</span> <span class="pre">u</span></code> for some <code class="docutils literal"><span class="pre">u</span></code>. The fact that a term <code class="docutils literal"><span class="pre">t</span></code> has type <code class="docutils literal"><span class="pre">α</span></code> is written <code class="docutils literal"><span class="pre">t</span> <span class="pre">:</span> <span class="pre">α</span></code>.</p>
+<p>For an expression to be well formed, its components have to satisfy certain typing constraints. These, in turn, determine the type of the resulting term, as follows:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">Sort</span> <span class="pre">u</span> <span class="pre">:</span> <span class="pre">Sort</span> <span class="pre">(u</span> <span class="pre">+</span> <span class="pre">1)</span></code></li>
+<li><code class="docutils literal"><span class="pre">c</span> <span class="pre">:</span> <span class="pre">α</span></code>, where <code class="docutils literal"><span class="pre">α</span></code> is the type that <code class="docutils literal"><span class="pre">c</span></code> has been declared or defined to have</li>
+<li><code class="docutils literal"><span class="pre">x</span> <span class="pre">:</span> <span class="pre">α</span></code>, where <code class="docutils literal"><span class="pre">α</span></code> is the type that <code class="docutils literal"><span class="pre">x</span></code> has been assigned in the local context where it is interpreted</li>
+<li><code class="docutils literal"><span class="pre">(Π</span> <span class="pre">x</span> <span class="pre">:</span> <span class="pre">α,</span> <span class="pre">β)</span> <span class="pre">:</span> <span class="pre">Sort</span> <span class="pre">(imax</span> <span class="pre">u</span> <span class="pre">v)</span></code> where <code class="docutils literal"><span class="pre">α</span> <span class="pre">:</span> <span class="pre">Sort</span> <span class="pre">u</span></code>, and <code class="docutils literal"><span class="pre">β</span> <span class="pre">:</span> <span class="pre">Sort</span> <span class="pre">v</span></code> assuming <code class="docutils literal"><span class="pre">x</span> <span class="pre">:</span> <span class="pre">α</span></code></li>
+<li><code class="docutils literal"><span class="pre">s</span> <span class="pre">t</span> <span class="pre">:</span> <span class="pre">β</span> <span class="pre">[t/x]</span></code> where <code class="docutils literal"><span class="pre">s</span></code> has type <code class="docutils literal"><span class="pre">Π</span> <span class="pre">x</span> <span class="pre">:</span> <span class="pre">α,</span> <span class="pre">β</span></code> and <code class="docutils literal"><span class="pre">t</span></code> has type <code class="docutils literal"><span class="pre">α</span></code></li>
+<li><code class="docutils literal"><span class="pre">(λ</span> <span class="pre">x</span> <span class="pre">:</span> <span class="pre">α,</span> <span class="pre">t)</span> <span class="pre">:</span> <span class="pre">Π</span> <span class="pre">x</span> <span class="pre">:</span> <span class="pre">α,</span> <span class="pre">β</span></code> if <code class="docutils literal"><span class="pre">t</span></code> has type <code class="docutils literal"><span class="pre">β</span></code> whenever <code class="docutils literal"><span class="pre">x</span></code> has type <code class="docutils literal"><span class="pre">α</span></code></li>
+<li><code class="docutils literal"><span class="pre">(let</span> <span class="pre">x</span> <span class="pre">:=</span> <span class="pre">t</span> <span class="pre">in</span> <span class="pre">s)</span> <span class="pre">:</span> <span class="pre">β</span> <span class="pre">[t/x]</span></code> where <code class="docutils literal"><span class="pre">s</span></code> has type <code class="docutils literal"><span class="pre">Π</span> <span class="pre">x</span> <span class="pre">:</span> <span class="pre">α,</span> <span class="pre">β</span></code>, and <code class="docutils literal"><span class="pre">t</span></code> has type <code class="docutils literal"><span class="pre">β</span></code> assuming <code class="docutils literal"><span class="pre">x</span> <span class="pre">:</span> <span class="pre">α</span></code></li>
+</ul>
+<p><code class="docutils literal"><span class="pre">Prop</span></code> abbreviates <code class="docutils literal"><span class="pre">Sort</span> <span class="pre">0</span></code>, <code class="docutils literal"><span class="pre">Type</span></code> abbreviates <code class="docutils literal"><span class="pre">Sort</span> <span class="pre">1</span></code>, and <code class="docutils literal"><span class="pre">Type</span> <span class="pre">u</span></code> abbreviates <code class="docutils literal"><span class="pre">Sort</span> <span class="pre">(u</span> <span class="pre">+</span> <span class="pre">1)</span></code> when <code class="docutils literal"><span class="pre">u</span></code> is a universe variable. We say “<code class="docutils literal"><span class="pre">α</span></code> is a type” to express <code class="docutils literal"><span class="pre">α</span> <span class="pre">:</span> <span class="pre">Type</span> <span class="pre">u</span></code> for some <code class="docutils literal"><span class="pre">u</span></code>, and we say “<code class="docutils literal"><span class="pre">p</span></code> is a proposition” to express <code class="docutils literal"><span class="pre">p</span> <span class="pre">:</span> <span class="pre">Prop</span></code>. Using the <em>propositions as types</em> correspondence, given <code class="docutils literal"><span class="pre">p</span> <span class="pre">:</span> <span class="pre">Prop</span></code>, we refer to an expression <code class="docutils literal"><span class="pre">t</span> <span class="pre">:</span> <span class="pre">p</span></code> as a <em>proof</em> of <code class="docutils literal"><span class="pre">p</span></code>. In contrast, given <code class="docutils literal"><span class="pre">α</span> <span class="pre">:</span> <span class="pre">Type</span> <span class="pre">u</span></code> for some <code class="docutils literal"><span class="pre">u</span></code> and <code class="docutils literal"><span class="pre">t</span> <span class="pre">:</span> <span class="pre">α</span></code>, we sometimes refer to <code class="docutils literal"><span class="pre">t</span></code> as <em>data</em>.</p>
+<p>When the expression <code class="docutils literal"><span class="pre">β</span></code> in <code class="docutils literal"><span class="pre">Π</span> <span class="pre">x</span> <span class="pre">:</span> <span class="pre">α,</span> <span class="pre">β</span></code> does not depend on <code class="docutils literal"><span class="pre">x</span></code>, it can be written <code class="docutils literal"><span class="pre">α</span> <span class="pre">→</span> <span class="pre">β</span></code>. As usual, the variable <code class="docutils literal"><span class="pre">x</span></code> is bound in <code class="docutils literal"><span class="pre">Π</span> <span class="pre">x</span> <span class="pre">:</span> <span class="pre">α,</span> <span class="pre">β</span></code>, <code class="docutils literal"><span class="pre">λ</span> <span class="pre">x</span> <span class="pre">:</span> <span class="pre">α,</span> <span class="pre">t</span></code>, and <code class="docutils literal"><span class="pre">let</span> <span class="pre">x</span> <span class="pre">:=</span> <span class="pre">t</span> <span class="pre">in</span> <span class="pre">s</span></code>. The expression <code class="docutils literal"><span class="pre">∀</span> <span class="pre">x</span> <span class="pre">:</span> <span class="pre">α,</span> <span class="pre">β</span></code> is alternative syntax for <code class="docutils literal"><span class="pre">Π</span> <span class="pre">x</span> <span class="pre">:</span> <span class="pre">α,</span> <span class="pre">β</span></code>, and is intended to be used when <code class="docutils literal"><span class="pre">β</span></code> is a proposition. An underscore can be used to generate an internal variable in a binder, as in <code class="docutils literal"><span class="pre">λ</span> <span class="pre">_</span> <span class="pre">:</span> <span class="pre">α,</span> <span class="pre">t</span></code>.</p>
+<p>In addition to the elements above, expressions can also contain <em>metavariables</em>, that is, temporary placeholders, that are used in the process of constructing terms. They can also contain <em>macros</em>, which are used to annotate or abbreviate terms. Terms that are added to the environment contain neither metavariable nor variables, which is to say, they are fully elaborated and make sense in the empty context.</p>
+<p>Constants can be declared in various ways, such as by the <code class="docutils literal"><span class="pre">constant(s)</span></code> and <code class="docutils literal"><span class="pre">axiom(s)</span></code> keywords, or as the result of an <code class="docutils literal"><span class="pre">inductive</span></code> or <code class="docutils literal"><span class="pre">structure</span></code> declarations. Similarly, objects can be defined in various ways, such as using <code class="docutils literal"><span class="pre">def</span></code>, <code class="docutils literal"><span class="pre">theorem</span></code>, or the equation compiler. See <a class="reference internal" href="declarations.html"><span class="doc">Declarations</span></a> for more information.</p>
+<p>Writing an expression <code class="docutils literal"><span class="pre">(t</span> <span class="pre">:</span> <span class="pre">α)</span></code> forces Lean to elaborate <code class="docutils literal"><span class="pre">t</span></code> so that it has type <code class="docutils literal"><span class="pre">α</span></code> or report an error if it fails.</p>
+<p>Lean supports anonymous constructor notation, anonymous projections, and various forms of match syntax, including destructuring <code class="docutils literal"><span class="pre">λ</span></code> and <code class="docutils literal"><span class="pre">let</span></code>. These, as well as notation for common data types (like pairs, lists, and so on) are discussed in <a class="reference internal" href="declarations.html"><span class="doc">Declarations</span></a> in connection with inductive types.</p>
+<p><strong>Examples</strong></p>
+<div class="highlight-lean"><div class="highlight"><pre><span></span><span class="n">universes</span> <span class="n">u</span> <span class="n">v</span> <span class="n">w</span>
+
+<span class="kn">variables</span> <span class="o">(</span><span class="n">p</span> <span class="n">q</span> <span class="o">:</span> <span class="kt">Prop</span><span class="o">)</span>
+<span class="kn">variable</span>  <span class="o">(</span><span class="n">α</span> <span class="o">:</span> <span class="kt">Type</span> <span class="n">u</span><span class="o">)</span>
+<span class="kn">variable</span>  <span class="o">(</span><span class="n">β</span> <span class="o">:</span> <span class="kt">Type</span> <span class="n">v</span><span class="o">)</span>
+<span class="kn">variable</span>  <span class="o">(</span><span class="n">γ</span> <span class="o">:</span> <span class="n">α</span> <span class="bp">→</span> <span class="kt">Type</span> <span class="n">w</span><span class="o">)</span>
+<span class="kn">variable</span>  <span class="o">(</span><span class="n">η</span> <span class="o">:</span> <span class="n">α</span> <span class="bp">→</span> <span class="n">β</span> <span class="bp">→</span> <span class="kt">Type</span> <span class="n">w</span><span class="o">)</span>
+
+<span class="kn">constants</span> <span class="n">δ</span> <span class="n">ε</span> <span class="o">:</span> <span class="kt">Type</span> <span class="n">u</span>
+<span class="kn">constants</span> <span class="n">cnst</span> <span class="o">:</span> <span class="n">δ</span>
+<span class="kn">constant</span>  <span class="n">f</span> <span class="o">:</span> <span class="n">δ</span> <span class="bp">→</span> <span class="n">ε</span>
+
+<span class="kn">variables</span> <span class="o">(</span><span class="n">a</span> <span class="o">:</span> <span class="n">α</span><span class="o">)</span> <span class="o">(</span><span class="n">b</span> <span class="o">:</span> <span class="n">β</span><span class="o">)</span> <span class="o">(</span><span class="n">c</span> <span class="o">:</span> <span class="n">γ</span> <span class="n">a</span><span class="o">)</span> <span class="o">(</span><span class="n">d</span> <span class="o">:</span> <span class="n">δ</span><span class="o">)</span>
+
+<span class="kn">variable</span>  <span class="n">g</span>  <span class="o">:</span> <span class="n">α</span> <span class="bp">→</span> <span class="n">β</span>
+<span class="kn">variable</span>  <span class="n">h</span>  <span class="o">:</span> <span class="bp">Π</span> <span class="n">x</span> <span class="o">:</span> <span class="n">α</span><span class="o">,</span> <span class="n">γ</span> <span class="n">x</span>
+<span class="kn">variable</span>  <span class="n">h&#39;</span> <span class="o">:</span> <span class="bp">Π</span> <span class="n">x</span><span class="o">,</span> <span class="n">γ</span> <span class="n">x</span> <span class="bp">→</span> <span class="n">δ</span>
+
+<span class="bp">#</span><span class="kn">check</span> <span class="n">Sort</span> <span class="o">(</span><span class="n">u</span> <span class="bp">+</span> <span class="mi">3</span><span class="o">)</span>
+<span class="bp">#</span><span class="kn">check</span> <span class="kt">Prop</span>
+<span class="bp">#</span><span class="kn">check</span> <span class="bp">Π</span> <span class="n">x</span> <span class="o">:</span> <span class="n">α</span><span class="o">,</span> <span class="n">γ</span> <span class="n">x</span>
+<span class="bp">#</span><span class="kn">check</span> <span class="n">f</span> <span class="n">cnst</span>
+<span class="bp">#</span><span class="kn">check</span> <span class="bp">λ</span> <span class="n">x</span><span class="o">,</span> <span class="n">h</span> <span class="n">x</span>
+<span class="bp">#</span><span class="kn">check</span> <span class="bp">λ</span> <span class="n">x</span><span class="o">,</span> <span class="n">h&#39;</span> <span class="n">x</span> <span class="o">(</span><span class="n">h</span> <span class="n">x</span><span class="o">)</span>
+<span class="bp">#</span><span class="kn">check</span> <span class="o">(</span><span class="bp">λ</span> <span class="n">x</span><span class="o">,</span> <span class="n">h</span> <span class="n">x</span><span class="o">)</span> <span class="n">a</span>
+<span class="bp">#</span><span class="kn">check</span> <span class="bp">λ</span> <span class="bp">_</span> <span class="o">:</span> <span class="bp">ℕ</span><span class="o">,</span> <span class="mi">5</span>
+<span class="bp">#</span><span class="kn">check</span> <span class="k">let</span> <span class="n">x</span> <span class="o">:=</span> <span class="n">a</span> <span class="k">in</span> <span class="n">h</span> <span class="n">x</span>
+
+<span class="bp">#</span><span class="kn">check</span> <span class="bp">Π</span> <span class="n">x</span> <span class="n">y</span><span class="o">,</span> <span class="n">η</span> <span class="n">x</span> <span class="n">y</span>
+<span class="bp">#</span><span class="kn">check</span> <span class="bp">Π</span> <span class="o">(</span><span class="n">x</span> <span class="o">:</span> <span class="n">α</span><span class="o">)</span> <span class="o">(</span><span class="n">y</span> <span class="o">:</span> <span class="n">β</span><span class="o">),</span> <span class="n">η</span> <span class="n">x</span> <span class="n">y</span>
+<span class="bp">#</span><span class="kn">check</span> <span class="bp">λ</span> <span class="n">x</span> <span class="n">y</span><span class="o">,</span> <span class="n">η</span> <span class="n">x</span> <span class="n">y</span>
+<span class="bp">#</span><span class="kn">check</span> <span class="bp">λ</span> <span class="o">(</span><span class="n">x</span> <span class="o">:</span> <span class="n">α</span><span class="o">)</span> <span class="o">(</span><span class="n">y</span> <span class="o">:</span> <span class="n">β</span><span class="o">),</span> <span class="n">η</span> <span class="n">x</span> <span class="n">y</span>
+<span class="bp">#</span><span class="kn">check</span> <span class="k">let</span> <span class="n">x</span> <span class="o">:=</span> <span class="n">a</span><span class="o">,</span> <span class="n">y</span> <span class="o">:=</span> <span class="n">b</span> <span class="k">in</span> <span class="n">η</span> <span class="n">x</span> <span class="n">y</span>
+
+<span class="bp">#</span><span class="kn">check</span> <span class="o">(</span><span class="mi">5</span> <span class="o">:</span> <span class="bp">ℕ</span><span class="o">)</span>
+<span class="bp">#</span><span class="kn">check</span> <span class="o">(</span><span class="mi">5</span> <span class="o">:</span> <span class="o">(</span><span class="bp">λ</span> <span class="n">x</span><span class="o">,</span> <span class="n">x</span><span class="o">)</span> <span class="bp">ℕ</span><span class="o">)</span>
+<span class="bp">#</span><span class="kn">check</span> <span class="o">(</span><span class="mi">5</span> <span class="o">:</span> <span class="bp">ℤ</span><span class="o">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="implicit-arguments">
+<h2>Implicit Arguments<a class="headerlink" href="#implicit-arguments" title="Permalink to this headline">¶</a></h2>
+<p>When declaring arguments to defined objects in Lean (for example, with <code class="docutils literal"><span class="pre">def</span></code>, <code class="docutils literal"><span class="pre">theorem</span></code>, <code class="docutils literal"><span class="pre">constant</span></code>, <code class="docutils literal"><span class="pre">inductive</span></code>, or <code class="docutils literal"><span class="pre">structure</span></code>; see <a class="reference internal" href="declarations.html"><span class="doc">Declarations</span></a>) or when declaring variables and parameters in sections (see <a class="reference internal" href="infrastructure.html"><span class="doc">Infrastructure</span></a>), arguments can be annotated as <em>explicit</em> or <em>implicit</em>. This determines how expressions containing the object are interpreted.</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">(x</span> <span class="pre">:</span> <span class="pre">α)</span></code> : an explicit argument of type <code class="docutils literal"><span class="pre">α</span></code></li>
+<li><code class="docutils literal"><span class="pre">{x</span> <span class="pre">:</span> <span class="pre">α}</span></code> : an implicit argument, eagerly inserted</li>
+<li><code class="docutils literal"><span class="pre">⦃x</span> <span class="pre">:</span> <span class="pre">α⦄</span></code> or <code class="docutils literal"><span class="pre">{{x</span> <span class="pre">:</span> <span class="pre">α}}</span></code> : an implicit argument, weakly inserted</li>
+<li><code class="docutils literal"><span class="pre">[x</span> <span class="pre">:</span> <span class="pre">α]</span></code> : an implicit argument that should be inferred by type class resolution</li>
+<li><code class="docutils literal"><span class="pre">(x</span> <span class="pre">:</span> <span class="pre">α</span> <span class="pre">:=</span> <span class="pre">t)</span></code> : an optional argument, with default value <code class="docutils literal"><span class="pre">t</span></code></li>
+<li><code class="docutils literal"><span class="pre">(x</span> <span class="pre">:</span> <span class="pre">α</span> <span class="pre">.</span> <span class="pre">t)</span></code> : an implicit argument, to be synthesized by tactic <code class="docutils literal"><span class="pre">t</span></code></li>
+</ul>
+<p>The name of the variable can be ommitted from a class resolution argument, in which case an internal name is generated.</p>
+<p>When a function has an explicit argument, you can nonetheless ask Lean’s elaborator to infer the argument automatically, by entering it as an underscore (<code class="docutils literal"><span class="pre">_</span></code>). Conversely, writing <code class="docutils literal"><span class="pre">&#64;foo</span></code> indicates that all of the arguments to be <code class="docutils literal"><span class="pre">foo</span></code> are to be given explicitly, independent of how <code class="docutils literal"><span class="pre">foo</span></code> was declared.</p>
+<p><strong>Examples</strong></p>
+<div class="highlight-lean"><div class="highlight"><pre><span></span><span class="kn">universe</span> <span class="n">u</span>
+
+<span class="n">def</span> <span class="n">ex1</span> <span class="o">(</span><span class="n">x</span> <span class="n">y</span> <span class="n">z</span> <span class="o">:</span> <span class="bp">ℕ</span><span class="o">)</span> <span class="o">:</span> <span class="bp">ℕ</span> <span class="o">:=</span> <span class="n">x</span> <span class="bp">+</span> <span class="n">y</span> <span class="bp">+</span> <span class="n">z</span>
+
+<span class="bp">#</span><span class="kn">check</span> <span class="n">ex1</span> <span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span>
+
+<span class="n">def</span> <span class="n">id1</span> <span class="o">(</span><span class="n">α</span> <span class="o">:</span> <span class="kt">Type</span> <span class="n">u</span><span class="o">)</span> <span class="o">(</span><span class="n">x</span> <span class="o">:</span> <span class="n">α</span><span class="o">)</span> <span class="o">:</span> <span class="n">α</span> <span class="o">:=</span> <span class="n">x</span>
+
+<span class="bp">#</span><span class="kn">check</span> <span class="n">id1</span> <span class="n">nat</span> <span class="mi">3</span>
+<span class="bp">#</span><span class="kn">check</span> <span class="n">id1</span> <span class="bp">_</span> <span class="mi">3</span>
+
+<span class="n">def</span> <span class="n">id2</span> <span class="o">{</span><span class="n">α</span> <span class="o">:</span> <span class="kt">Type</span> <span class="n">u</span><span class="o">}</span> <span class="o">(</span><span class="n">x</span> <span class="o">:</span> <span class="n">α</span><span class="o">)</span> <span class="o">:</span> <span class="n">α</span> <span class="o">:=</span> <span class="n">x</span>
+
+<span class="bp">#</span><span class="kn">check</span> <span class="n">id2</span> <span class="mi">3</span>
+<span class="bp">#</span><span class="kn">check</span> <span class="bp">@</span><span class="n">id2</span> <span class="bp">ℕ</span> <span class="mi">3</span>
+<span class="bp">#</span><span class="kn">check</span> <span class="o">(</span><span class="n">id2</span> <span class="o">:</span> <span class="bp">ℕ</span> <span class="bp">→</span> <span class="bp">ℕ</span><span class="o">)</span>
+
+<span class="n">def</span> <span class="n">id3</span> <span class="o">{{</span><span class="n">α</span> <span class="o">:</span> <span class="kt">Type</span> <span class="n">u</span><span class="o">}}</span> <span class="o">(</span><span class="n">x</span> <span class="o">:</span> <span class="n">α</span><span class="o">)</span> <span class="o">:</span> <span class="n">α</span> <span class="o">:=</span> <span class="n">x</span>
+
+<span class="bp">#</span><span class="kn">check</span> <span class="n">id3</span> <span class="mi">3</span>
+<span class="bp">#</span><span class="kn">check</span> <span class="bp">@</span><span class="n">id3</span> <span class="bp">ℕ</span> <span class="mi">3</span>
+<span class="bp">#</span><span class="kn">check</span> <span class="o">(</span><span class="n">id3</span> <span class="o">:</span> <span class="bp">Π</span> <span class="n">α</span> <span class="o">:</span> <span class="kt">Type</span><span class="o">,</span> <span class="n">α</span> <span class="bp">→</span> <span class="n">α</span><span class="o">)</span>
+
+<span class="n">class</span> <span class="n">cls</span> <span class="o">:=</span> <span class="o">(</span><span class="n">val</span> <span class="o">:</span> <span class="bp">ℕ</span><span class="o">)</span>
+<span class="kn">instance</span> <span class="n">cls_five</span> <span class="o">:</span> <span class="n">cls</span> <span class="o">:=</span> <span class="bp">⟨</span><span class="mi">5</span><span class="bp">⟩</span>
+
+<span class="n">def</span> <span class="n">ex2</span> <span class="o">[</span><span class="n">c</span> <span class="o">:</span> <span class="n">cls</span><span class="o">]</span> <span class="o">:</span> <span class="bp">ℕ</span> <span class="o">:=</span> <span class="n">c</span><span class="bp">.</span><span class="n">val</span>
+
+<span class="kn">example</span> <span class="o">:</span> <span class="n">ex2</span> <span class="bp">=</span> <span class="mi">5</span> <span class="o">:=</span> <span class="n">rfl</span>
+
+<span class="n">def</span> <span class="n">ex2a</span> <span class="o">[</span><span class="n">cls</span><span class="o">]</span> <span class="o">:</span> <span class="bp">ℕ</span> <span class="o">:=</span> <span class="n">ex2</span>
+
+<span class="kn">example</span> <span class="o">:</span> <span class="n">ex2a</span> <span class="bp">=</span> <span class="mi">5</span> <span class="o">:=</span> <span class="n">rfl</span>
+
+<span class="n">def</span> <span class="n">ex3</span> <span class="o">(</span><span class="n">x</span> <span class="o">:</span> <span class="bp">ℕ</span> <span class="o">:=</span> <span class="mi">5</span><span class="o">)</span> <span class="o">:=</span> <span class="n">x</span>
+
+<span class="bp">#</span><span class="kn">check</span> <span class="n">ex3</span> <span class="mi">2</span>
+<span class="bp">#</span><span class="kn">check</span> <span class="n">ex3</span>
+<span class="kn">example</span> <span class="o">:</span> <span class="n">ex3</span> <span class="bp">=</span> <span class="mi">5</span> <span class="o">:=</span> <span class="n">rfl</span>
+
+<span class="n">meta</span> <span class="n">def</span> <span class="n">ex_tac</span> <span class="o">:</span> <span class="n">tactic</span> <span class="n">unit</span> <span class="o">:=</span> <span class="n">tactic</span><span class="bp">.</span><span class="n">refine</span> <span class="bp">``</span><span class="o">(</span><span class="mi">5</span><span class="o">)</span>
+
+<span class="n">def</span> <span class="n">ex4</span> <span class="o">(</span><span class="n">x</span> <span class="o">:</span> <span class="bp">ℕ</span> <span class="bp">.</span> <span class="n">ex_tac</span><span class="o">)</span> <span class="o">:=</span> <span class="n">x</span>
+
+<span class="kn">example</span> <span class="o">:</span> <span class="n">ex4</span> <span class="bp">=</span> <span class="mi">5</span> <span class="o">:=</span> <span class="n">rfl</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="basic-data-types-and-assertions">
+<h2>Basic Data Types and Assertions<a class="headerlink" href="#basic-data-types-and-assertions" title="Permalink to this headline">¶</a></h2>
+<p>The core library contains a numboer of basic data types, such as the natural numbers (<code class="docutils literal"><span class="pre">ℕ</span></code>, or <code class="docutils literal"><span class="pre">nat</span></code>), the integers (<code class="docutils literal"><span class="pre">ℤ</span></code>), the booleans (<code class="docutils literal"><span class="pre">bool</span></code>), and common operations on these, as well as the usual logical quantifiers and connectives. Some example are given below. A list of common notations and their precedences can be found in a <a class="reference external" href="https://github.com/leanprover/lean/blob/master/library/init/core.lean">file</a> in the core library. The core library also contains a number of basic data type constructors. Definitions can also be found the <a class="reference external" href="https://github.com/leanprover/lean/blob/master/library/init/data">data</a> directory of the core library. For more information, see also <a class="reference internal" href="libraries.html"><span class="doc">Libraries</span></a>.</p>
+<div class="highlight-lean"><div class="highlight"><pre><span></span>/- numbers -/
+section
+variables a b c d : ℕ
+variables i j k : ℤ
+
+#check a^2 + b^2 + c^2
+#check (a + b)^c ≤ d
+#check i ∣ j * k
+end
+
+/- booleans -/
+section
+variables a b c : bool
+
+#check a &amp;&amp; (b || c)
+end
+
+/- pairs -/
+section
+variables (a b c : ℕ) (p : ℕ × bool)
+
+#check (1, 2)
+#check p.1 * 2
+#check p.2 &amp;&amp; tt
+#check ((1, 2, 3) : ℕ × ℕ × ℕ)
+end
+
+/- lists -/
+section
+variables x y z : ℕ
+variables xs ys zs : list ℕ
+open list
+
+#check (1 :: xs) ++ (y :: zs) ++ [1,2,3]
+#check append (cons 1 xs) (cons y zs)
+#check map (λ x, x^2) [1, 2, 3]
+end
+
+/- sets -/
+section
+variables s t u : set ℕ
+
+#check ({1, 2, 3} ∩ s) ∪ ({x | x &lt; 7} ∩ t)
+end
+
+/- strings and characters -/
+#check &quot;hello world&quot;
+#check &#39;a&#39;
+
+/- assertions -/
+#check ∀ a b c n : ℕ, a ≠ 0 ∧ b ≠ 0 ∧ c ≠ 0 ∧ n &gt; 2 → a^n + b^n ≠ c^n
+def unbounded (f : ℕ → ℕ) : Prop := ∀ M, ∃ n, f n ≥ M
+</pre></div>
+</div>
+</div>
+<div class="section" id="constructors-projections-and-matching">
+<span id="id1"></span><h2>Constructors, Projections, and Matching<a class="headerlink" href="#constructors-projections-and-matching" title="Permalink to this headline">¶</a></h2>
+<p>Lean foundation, the <em>Calculus of Inductive Constructions</em>, supports the declaration of <em>inductive types</em>. Such types can have any number of <em>constructors</em>, and an associated <em>eliminator</em> (or <em>recursor</em>). Inductive types with one constructor, known as <em>structures</em>, have <em>projections</em>. The full syntax of inductive types is described in <a class="reference internal" href="declarations.html"><span class="doc">Declarations</span></a>, but here we describe some syntactic elements that facilitate their use in expressions.</p>
+<p>When Lean can infer the type of an expression and it is an inductive type with one constructor, then one can write <code class="docutils literal"><span class="pre">⟨a1,</span> <span class="pre">a2,</span> <span class="pre">...,</span> <span class="pre">an⟩</span></code> to apply the constructor without naming it. For example, <code class="docutils literal"><span class="pre">⟨a,</span> <span class="pre">b⟩</span></code> denotes <code class="docutils literal"><span class="pre">prod.mk</span> <span class="pre">a</span> <span class="pre">b</span></code> in a context where the expression can be inferred to be a pair, and <code class="docutils literal"><span class="pre">⟨h₁,</span> <span class="pre">h₂⟩</span></code> denotes <code class="docutils literal"><span class="pre">and.intro</span> <span class="pre">h₁</span> <span class="pre">h₂</span></code> in a context when the expression can be inferred to be a conjunction. The notation will nest constructions automatically, so <code class="docutils literal"><span class="pre">⟨a1,</span> <span class="pre">a2,</span> <span class="pre">a3⟩</span></code> is interpreted as <code class="docutils literal"><span class="pre">prod.mk</span> <span class="pre">a1</span> <span class="pre">(prod.mk</span> <span class="pre">a2</span> <span class="pre">a3)</span></code> when the expression is expected to have a type of the form <code class="docutils literal"><span class="pre">α1</span> <span class="pre">×</span> <span class="pre">α2</span> <span class="pre">×</span> <span class="pre">α3</span></code>. (The latter is interpreted as <code class="docutils literal"><span class="pre">α1</span> <span class="pre">×</span> <span class="pre">(α2</span> <span class="pre">×</span> <span class="pre">α3)</span></code>, since the product associates to the right.)</p>
+<p>Similarly, one can use “dot notation” for projections: one can write <code class="docutils literal"><span class="pre">p.fst</span></code> and <code class="docutils literal"><span class="pre">p.snd</span></code> for <code class="docutils literal"><span class="pre">prod.fst</span> <span class="pre">p</span></code> and <code class="docutils literal"><span class="pre">prod.snd</span> <span class="pre">p</span></code> when Lean can infer that <code class="docutils literal"><span class="pre">p</span></code> is an element of a product, and <code class="docutils literal"><span class="pre">h.left</span></code> and <code class="docutils literal"><span class="pre">h.right</span></code> for <code class="docutils literal"><span class="pre">and.left</span> <span class="pre">h</span></code> and <code class="docutils literal"><span class="pre">and.right</span> <span class="pre">h</span></code> when <code class="docutils literal"><span class="pre">h</span></code> is a conjunction.</p>
+<p>The anonymous projector notation can used more generally for any objects defined in a <em>namespace</em> (see <a class="reference internal" href="infrastructure.html"><span class="doc">Infrastructure</span></a>). For example, if <code class="docutils literal"><span class="pre">l</span></code> has type <code class="docutils literal"><span class="pre">list</span> <span class="pre">α</span></code> then <code class="docutils literal"><span class="pre">l.map</span> <span class="pre">f</span></code> abbreviates <code class="docutils literal"><span class="pre">list.map</span> <span class="pre">f</span> <span class="pre">l</span></code>, in which <code class="docutils literal"><span class="pre">l</span></code> has been placed at the first argument position where <code class="docutils literal"><span class="pre">list.map</span></code> expects a <code class="docutils literal"><span class="pre">list</span></code>.</p>
+<p>Finally, for data types with one constructor, one destruct an element by pattern matching using the <code class="docutils literal"><span class="pre">let</span></code> and <code class="docutils literal"><span class="pre">assume</span></code> constructs, as in the examples below. Internally, these are interpreted using the <code class="docutils literal"><span class="pre">match</span></code> construct, which is in turn compiled down for the eliminator for the inductive type, as described in <a class="reference internal" href="declarations.html"><span class="doc">Declarations</span></a>.</p>
+<div class="highlight-lean"><div class="highlight"><pre><span></span>universes u v
+variables {α : Type u} {β : Type v}
+
+def p : ℕ × ℤ := ⟨1, 2⟩
+#check p.fst
+#check p.snd
+
+def p&#39; : ℕ × ℤ × bool := ⟨1, 2, tt⟩
+#check p&#39;.fst
+#check p&#39;.snd.fst
+#check p&#39;.snd.snd
+
+def swap_pair (p : α × β) : β × α :=
+⟨p.snd, p.fst⟩
+
+theorem swap_conj {a b : Prop} (h : a ∧ b) : b ∧ a :=
+⟨h.right, h.left⟩
+
+#check [1, 2, 3].append [2, 3, 4]
+#check [1, 2, 3].map (λ x, x^2)
+
+example (p q : Prop) : p ∧ q → q ∧ p :=
+λ h, ⟨h.right, h.left⟩
+
+def swap_pair&#39; (p : α × β) : β × α :=
+let (x, y) := p in (y, x)
+
+theorem swap_conj&#39; {a b : Prop} (h : a ∧ b) : b ∧ a :=
+let ⟨ha, hb⟩ := h in ⟨hb, ha⟩
+
+def swap_pair&#39;&#39; : α × β → β × α :=
+λ ⟨x, y⟩, (y, x)
+
+theorem swap_conj&#39;&#39; {a b : Prop} : a ∧ b → b ∧ a :=
+assume ⟨ha, hb⟩, ⟨hb, ha⟩
+</pre></div>
+</div>
+</div>
+<div class="section" id="structured-proofs">
+<h2>Structured Proofs<a class="headerlink" href="#structured-proofs" title="Permalink to this headline">¶</a></h2>
+<p>Syntactic sugar is provided for writing structured proof terms:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">assume</span> <span class="pre">h</span> <span class="pre">:</span> <span class="pre">p,</span> <span class="pre">t</span></code> is sugar for <code class="docutils literal"><span class="pre">λ</span> <span class="pre">h</span> <span class="pre">:</span> <span class="pre">p,</span> <span class="pre">t</span></code></li>
+<li><code class="docutils literal"><span class="pre">have</span> <span class="pre">h</span> <span class="pre">:</span> <span class="pre">p,</span> <span class="pre">from</span> <span class="pre">s,</span> <span class="pre">t</span></code> is sugar for <code class="docutils literal"><span class="pre">(λ</span> <span class="pre">h</span> <span class="pre">:</span> <span class="pre">p,</span> <span class="pre">t)</span> <span class="pre">s</span></code></li>
+<li><code class="docutils literal"><span class="pre">suffices</span> <span class="pre">h</span> <span class="pre">:</span> <span class="pre">p,</span> <span class="pre">from</span> <span class="pre">s,</span> <span class="pre">t</span></code> is sugar for <code class="docutils literal"><span class="pre">(λ</span> <span class="pre">h</span> <span class="pre">:</span> <span class="pre">p,</span> <span class="pre">s)</span> <span class="pre">t</span></code></li>
+<li><code class="docutils literal"><span class="pre">show</span> <span class="pre">p,</span> <span class="pre">t</span></code> is sugar for <code class="docutils literal"><span class="pre">(t</span> <span class="pre">:</span> <span class="pre">p)</span></code></li>
+</ul>
+<p>As with <code class="docutils literal"><span class="pre">λ</span></code>, multiple variables can be bound with <code class="docutils literal"><span class="pre">assume</span></code>, and types can be ommitted when they can be inferred by Lean. Lean also allows the syntax <code class="docutils literal"><span class="pre">assume</span> <span class="pre">:</span> <span class="pre">p,</span> <span class="pre">t</span></code>, which gives the assumption the name <code class="docutils literal"><span class="pre">this</span></code> in the local context.  Similarly, Lean recognizes the variants <code class="docutils literal"><span class="pre">have</span> <span class="pre">p,</span> <span class="pre">from</span> <span class="pre">s,</span> <span class="pre">t</span></code> and <code class="docutils literal"><span class="pre">suffices</span> <span class="pre">p,</span> <span class="pre">from</span> <span class="pre">s,</span> <span class="pre">t</span></code>, which use the name <code class="docutils literal"><span class="pre">this</span></code> for the new hypothesis.</p>
+<p>The notation <code class="docutils literal"><span class="pre">‹p›</span></code> is notation for <code class="docutils literal"><span class="pre">(by</span> <span class="pre">assumption</span> <span class="pre">:</span> <span class="pre">p)</span></code>, and can therefore be used to apply hypotheses in the local context.</p>
+<p>As noted in <a class="reference internal" href="#constructors-projections-and-matching"><span class="std std-ref">Constructors, Projections, and Matching</span></a>, anonymous constructors and projections and match syntax can be used in proofs just as in expressions that denote data.</p>
+<p><strong>Examples</strong></p>
+<div class="highlight-lean"><div class="highlight"><pre><span></span>example (p q r : Prop) : p → (q ∧ r) → p ∧ q :=
+assume h₁ : p,
+assume h₂ : q ∧ r,
+have h₃ : q, from and.left h₂,
+show p ∧ q, from and.intro h₁ h₃
+
+example (p q r : Prop) : p → (q ∧ r) → p ∧ q :=
+assume : p,
+assume : q ∧ r,
+have q, from and.left this,
+show p ∧ q, from and.intro ‹p› this
+
+example (p q r : Prop) : p → (q ∧ r) → p ∧ q :=
+assume h₁ : p,
+assume h₂ : q ∧ r,
+suffices h₃ : q, from and.intro h₁ h₃,
+show q, from and.left h₂
+</pre></div>
+</div>
+</div>
+<div class="section" id="computation">
+<h2>Computation<a class="headerlink" href="#computation" title="Permalink to this headline">¶</a></h2>
+<p>Two expressions that differ up to a renaming of their bound variables are said to be <em>α-equivalent</em>, and are treated as syntactically equivalent by Lean.</p>
+<p>Every expression in Lean has a natural computational interpretation, unless it involves classical elements that block computation, as described in the next section. The system recognizes the following notions of <em>reduction</em>:</p>
+<ul class="simple">
+<li><em>β-reduction</em> : An expression <code class="docutils literal"><span class="pre">(λ</span> <span class="pre">x,</span> <span class="pre">t)</span> <span class="pre">s</span></code> β-reduces to <code class="docutils literal"><span class="pre">t[s/x]</span></code>, that is, the result of replacing <code class="docutils literal"><span class="pre">x</span></code> by <code class="docutils literal"><span class="pre">s</span></code> in <code class="docutils literal"><span class="pre">t</span></code>.</li>
+<li><em>ζ-reduction</em> : An expression <code class="docutils literal"><span class="pre">let</span> <span class="pre">x</span> <span class="pre">:=</span> <span class="pre">s</span> <span class="pre">in</span> <span class="pre">t</span></code> ζ-reduces to <code class="docutils literal"><span class="pre">t[s/x]</span></code>.</li>
+<li><em>δ-reduction</em> : If <code class="docutils literal"><span class="pre">c</span></code> is a defined constant with definition <code class="docutils literal"><span class="pre">t</span></code>, then <code class="docutils literal"><span class="pre">c</span></code> δ-reduces to to <code class="docutils literal"><span class="pre">t</span></code>.</li>
+<li><em>ι-reduction</em> : When a function defined by recursion on an inductive type is applied to an element given by an explicit constructor, the result ι-reduces to the specified function value, as described in <a class="reference internal" href="declarations.html#inductive-definitions"><span class="std std-ref">Inductive Definitions</span></a>.</li>
+</ul>
+<p>The reduction relation is transitive, which is to say, is <code class="docutils literal"><span class="pre">s</span></code> reduces to <code class="docutils literal"><span class="pre">s'</span></code> and <code class="docutils literal"><span class="pre">t</span></code> reduces to <code class="docutils literal"><span class="pre">t'</span></code>, then <code class="docutils literal"><span class="pre">s</span> <span class="pre">t</span></code> reduces to <code class="docutils literal"><span class="pre">s'</span> <span class="pre">t'</span></code>, <code class="docutils literal"><span class="pre">λ</span> <span class="pre">x,</span> <span class="pre">s</span></code> reduces to <code class="docutils literal"><span class="pre">λ</span> <span class="pre">x,</span> <span class="pre">s'</span></code>, and so on. If <code class="docutils literal"><span class="pre">s</span></code> and <code class="docutils literal"><span class="pre">t</span></code> reduce to a common term, they are said to be <em>definitionally equal</em>. Definitional equality is defined to be the smallest equivalence relation that satisfies all these properties and also includes α-equivalenece and the following two relations:</p>
+<ul class="simple">
+<li><em>η-equivalence</em> : An expression <code class="docutils literal"><span class="pre">(λx,</span> <span class="pre">t</span> <span class="pre">x)</span></code> is η-equivalent to <code class="docutils literal"><span class="pre">t</span></code>, assuming <code class="docutils literal"><span class="pre">x</span></code> does not occur in <code class="docutils literal"><span class="pre">t</span></code>.</li>
+<li><em>proof irrelevance</em> : If <code class="docutils literal"><span class="pre">p</span> <span class="pre">:</span> <span class="pre">Prop</span></code>, <code class="docutils literal"><span class="pre">s</span> <span class="pre">:</span> <span class="pre">p</span></code>, and <code class="docutils literal"><span class="pre">t</span> <span class="pre">:</span> <span class="pre">p</span></code>, then <code class="docutils literal"><span class="pre">s</span></code> and <code class="docutils literal"><span class="pre">t</span></code> are  considered to be equivalent.</li>
+</ul>
+<p>This last fact reflects the intuition that once we have proved a proposition <code class="docutils literal"><span class="pre">p</span></code>, we only care that is has been proved; the proof does nothing more than witness the fact that <code class="docutils literal"><span class="pre">p</span></code> is true.</p>
+<p>Definitional equality is a strong notion of equalty of values. Lean’s logical foundations sanction treating definitionally equal terms as being the same when checking that a term is well-typed and/or that it has a given type.</p>
+<p>The reduction relation is believed to be strongly normalizing, which is to say, every sequence of reductions applied to a term will eventually terminate. The property guarantees that Lean’s type-checking algorithm terminates, at least in principle. The consistency of Lean and its soundness with respect to a set-theoretic semantics do not depend on either of these properties.</p>
+<p>Lean provides two commands to compute with expressions:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">#reduce</span> <span class="pre">t</span></code> : use the kernel type-checking procedures to carry out reductions on <code class="docutils literal"><span class="pre">t</span></code> until no more reductions are possible, and show the result</li>
+<li><code class="docutils literal"><span class="pre">#eval</span> <span class="pre">t</span></code> : evaluate <code class="docutils literal"><span class="pre">t</span></code> using a fast bytecode evalator, and show the result</li>
+</ul>
+<p>Every computable definition in Lean is compiled to bytecode at definition time. Bytecode evaluation is more liberal than kernel evaluation: types and all propositional information are erased, and functions are evaluated using a stack-based virtual machine. As a result, <code class="docutils literal"><span class="pre">#eval</span></code> is more efficient than <code class="docutils literal"><span class="pre">#reduce,</span></code> and can be used to execute complex programs. In contrast, <code class="docutils literal"><span class="pre">#reduce</span></code> is designed to be small and reliable, and to produce type-correct terms at each step. Bytecode is never used in type checking, so as far as soundness and consistency are concerned, only kernel reduction is part of the trusted computing base.</p>
+<p><strong>Examples</strong></p>
+<div class="highlight-lean"><div class="highlight"><pre><span></span><span class="bp">#</span><span class="n">reduce</span> <span class="o">(</span><span class="bp">λ</span> <span class="n">x</span><span class="o">,</span> <span class="n">x</span> <span class="bp">+</span> <span class="mi">3</span><span class="o">)</span> <span class="mi">5</span>
+<span class="bp">#</span><span class="kn">eval</span>   <span class="o">(</span><span class="bp">λ</span> <span class="n">x</span><span class="o">,</span> <span class="n">x</span> <span class="bp">+</span> <span class="mi">3</span><span class="o">)</span> <span class="mi">5</span>
+
+<span class="bp">#</span><span class="n">reduce</span> <span class="k">let</span> <span class="n">x</span> <span class="o">:=</span> <span class="mi">5</span> <span class="k">in</span> <span class="n">x</span> <span class="bp">+</span> <span class="mi">3</span>
+<span class="bp">#</span><span class="kn">eval</span>   <span class="k">let</span> <span class="n">x</span> <span class="o">:=</span> <span class="mi">5</span> <span class="k">in</span> <span class="n">x</span> <span class="bp">+</span> <span class="mi">3</span>
+
+<span class="n">def</span> <span class="n">f</span> <span class="n">x</span> <span class="o">:=</span> <span class="n">x</span> <span class="bp">+</span> <span class="mi">3</span>
+
+<span class="bp">#</span><span class="n">reduce</span> <span class="n">f</span> <span class="mi">5</span>
+<span class="bp">#</span><span class="kn">eval</span>   <span class="n">f</span> <span class="mi">5</span>
+
+<span class="bp">#</span><span class="n">reduce</span> <span class="bp">@</span><span class="n">nat</span><span class="bp">.</span><span class="n">rec</span> <span class="o">(</span><span class="bp">λ</span> <span class="n">n</span><span class="o">,</span> <span class="bp">ℕ</span><span class="o">)</span> <span class="o">(</span><span class="mi">0</span> <span class="o">:</span> <span class="bp">ℕ</span><span class="o">)</span> <span class="o">(</span><span class="bp">λ</span> <span class="n">n</span> <span class="n">recval</span> <span class="o">:</span> <span class="bp">ℕ</span><span class="o">,</span> <span class="n">recval</span> <span class="bp">+</span> <span class="n">n</span> <span class="bp">+</span> <span class="mi">1</span><span class="o">)</span> <span class="o">(</span><span class="mi">5</span> <span class="o">:</span> <span class="bp">ℕ</span><span class="o">)</span>
+<span class="bp">#</span><span class="kn">eval</span>   <span class="bp">@</span><span class="n">nat</span><span class="bp">.</span><span class="n">rec</span> <span class="o">(</span><span class="bp">λ</span> <span class="n">n</span><span class="o">,</span> <span class="bp">ℕ</span><span class="o">)</span> <span class="o">(</span><span class="mi">0</span> <span class="o">:</span> <span class="bp">ℕ</span><span class="o">)</span> <span class="o">(</span><span class="bp">λ</span> <span class="n">n</span> <span class="n">recval</span> <span class="o">:</span> <span class="bp">ℕ</span><span class="o">,</span> <span class="n">recval</span> <span class="bp">+</span> <span class="n">n</span> <span class="bp">+</span> <span class="mi">1</span><span class="o">)</span> <span class="o">(</span><span class="mi">5</span> <span class="o">:</span> <span class="bp">ℕ</span><span class="o">)</span>
+
+<span class="n">def</span> <span class="n">g</span> <span class="o">:</span> <span class="bp">ℕ</span> <span class="bp">→</span> <span class="bp">ℕ</span>
+<span class="bp">|</span> <span class="mi">0</span>     <span class="o">:=</span> <span class="mi">0</span>
+<span class="bp">|</span> <span class="o">(</span><span class="n">n</span><span class="bp">+</span><span class="mi">1</span><span class="o">)</span> <span class="o">:=</span> <span class="n">g</span> <span class="n">n</span> <span class="bp">+</span> <span class="n">n</span> <span class="bp">+</span> <span class="mi">1</span>
+
+<span class="bp">#</span><span class="n">reduce</span> <span class="n">g</span> <span class="mi">5</span>
+<span class="bp">#</span><span class="kn">eval</span>   <span class="n">g</span> <span class="mi">5</span>
+
+<span class="bp">#</span><span class="kn">eval</span>   <span class="n">g</span> <span class="mi">50000</span>
+
+<span class="kn">example</span> <span class="o">:</span> <span class="o">(</span><span class="bp">λ</span> <span class="n">x</span><span class="o">,</span> <span class="n">x</span> <span class="bp">+</span> <span class="mi">3</span><span class="o">)</span> <span class="mi">5</span> <span class="bp">=</span> <span class="mi">8</span> <span class="o">:=</span> <span class="n">rfl</span>
+<span class="kn">example</span> <span class="o">:</span> <span class="o">(</span><span class="bp">λ</span> <span class="n">x</span><span class="o">,</span> <span class="n">f</span> <span class="n">x</span><span class="o">)</span> <span class="bp">=</span> <span class="n">f</span> <span class="o">:=</span> <span class="n">rfl</span>
+<span class="kn">example</span> <span class="o">(</span><span class="n">p</span> <span class="o">:</span> <span class="kt">Prop</span><span class="o">)</span> <span class="o">(</span><span class="n">h₁</span> <span class="n">h₂</span> <span class="o">:</span> <span class="n">p</span><span class="o">)</span> <span class="o">:</span> <span class="n">h₁</span> <span class="bp">=</span> <span class="n">h₂</span> <span class="o">:=</span> <span class="n">rfl</span>
+</pre></div>
+</div>
+<p>Note: the combination of proof irrelevance and singleton <code class="docutils literal"><span class="pre">Prop</span></code> elimination in ι-reduction renders the ideal version of definitional equality, as described above, undecidable. Lean’s procedure for checking definitional equality is only an approximation to the ideal. It is not transitive, as illustrated by the example below. Once again, this does not compromise the consistency or soundness of Lean; it only means that Lean is more conservative in the terms it recognizes as well typed, and this does not cause problems in practice. Singleton elimination will be discussed in greater detail in <a class="reference internal" href="declarations.html#inductive-definitions"><span class="std std-ref">Inductive Definitions</span></a>.</p>
+<p><strong>Example</strong></p>
+<div class="highlight-lean"><div class="highlight"><pre><span></span><span class="n">def</span> <span class="n">R</span> <span class="o">(</span><span class="n">x</span> <span class="n">y</span> <span class="o">:</span> <span class="n">unit</span><span class="o">)</span> <span class="o">:=</span> <span class="n">false</span>
+<span class="n">def</span> <span class="n">accrec</span> <span class="o">:=</span> <span class="bp">@</span><span class="n">acc</span><span class="bp">.</span><span class="n">rec</span> <span class="n">unit</span> <span class="n">R</span> <span class="o">(</span><span class="bp">λ_</span><span class="o">,</span> <span class="n">unit</span><span class="o">)</span> <span class="o">(</span><span class="bp">λ</span> <span class="bp">_</span> <span class="n">a</span> <span class="n">ih</span><span class="o">,</span> <span class="o">())</span> <span class="o">()</span>
+<span class="kn">example</span> <span class="o">(</span><span class="n">h</span><span class="o">)</span> <span class="o">:</span> <span class="n">accrec</span> <span class="n">h</span> <span class="bp">=</span> <span class="n">accrec</span> <span class="o">(</span><span class="n">acc</span><span class="bp">.</span><span class="n">intro</span> <span class="bp">_</span> <span class="o">(</span><span class="bp">λ</span> <span class="n">y</span><span class="o">,</span> <span class="n">acc</span><span class="bp">.</span><span class="n">inv</span> <span class="n">h</span><span class="o">))</span> <span class="o">:=</span> <span class="n">rfl</span>
+<span class="kn">example</span> <span class="o">(</span><span class="n">h</span><span class="o">)</span> <span class="o">:</span> <span class="n">accrec</span> <span class="o">(</span><span class="n">acc</span><span class="bp">.</span><span class="n">intro</span> <span class="bp">_</span> <span class="o">(</span><span class="bp">λ</span> <span class="n">y</span><span class="o">,</span> <span class="n">acc</span><span class="bp">.</span><span class="n">inv</span> <span class="n">h</span><span class="o">))</span> <span class="bp">=</span> <span class="o">()</span> <span class="o">:=</span> <span class="n">rfl</span>
+<span class="kn">example</span> <span class="o">(</span><span class="n">h</span><span class="o">)</span> <span class="o">:</span> <span class="n">accrec</span> <span class="n">h</span> <span class="bp">=</span> <span class="o">()</span> <span class="o">:=</span> <span class="n">sorry</span>   <span class="c1">-- rfl fails</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="axioms">
+<h2>Axioms<a class="headerlink" href="#axioms" title="Permalink to this headline">¶</a></h2>
+<p>Lean’s foundational framework consists of:</p>
+<ul class="simple">
+<li>the core elements of the calculus of constructions, with type universes and dependent function types, as described above</li>
+<li>inductive types, as described in <a class="reference internal" href="declarations.html"><span class="doc">Declarations</span></a>.</li>
+</ul>
+<p>In addition, the core library defines (and trusts) the following axiomatic extensions:</p>
+<ul class="simple">
+<li>propositional extensionality: …</li>
+<li>quotients: …</li>
+<li>choice: …</li>
+</ul>
+<p>The last principle, in conjunction with the others, makes the axiomatic foundation classical. Functions that make use of <code class="docutils literal"><span class="pre">choice</span></code> to produce data are incompatible with a computational interpretation, and do not produce bytecode. They have to be declared <code class="docutils literal"><span class="pre">noncomputable</span></code>.</p>
+<p>For metaprogramming purposes, Lean also allows the definition of objects which stand outside the object language. These are denoted with the <code class="docutils literal"><span class="pre">meta</span></code> keyword, as described in <a class="reference internal" href="programming.html"><span class="doc">Programming</span></a>.</p>
+</div>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="declarations.html" class="btn btn-neutral float-right" title="Declarations" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="index.html" class="btn btn-neutral" title="The Lean Reference Manual" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, Jeremy Avigad.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'master',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

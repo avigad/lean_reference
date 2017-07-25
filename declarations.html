@@ -1,0 +1,306 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Declarations &mdash; The Lean Reference Manual master documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="The Lean Reference Manual master documentation" href="index.html"/>
+        <link rel="next" title="Infrastructure" href="infrastructure.html"/>
+        <link rel="prev" title="Expressions" href="expressions.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> The Lean Reference Manual
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                master
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="expressions.html">Expressions</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Declarations</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#identifiers">Identifiers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#basic-declarations">Basic Declarations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#inductive-definitions">Inductive Definitions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#some-basic-types">Some Basic Types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#the-equation-compiler">The Equation Compiler</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#match-expressions">Match Expressions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#structures-and-records">Structures and Records</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="infrastructure.html">Infrastructure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tactics.html">Tactics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="programming.html">Programming</a></li>
+<li class="toctree-l1"><a class="reference internal" href="libraries.html">Libraries</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">The Lean Reference Manual</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Declarations</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/declarations.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="declarations">
+<h1>Declarations<a class="headerlink" href="#declarations" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="identifiers">
+<h2>Identifiers<a class="headerlink" href="#identifiers" title="Permalink to this headline">¶</a></h2>
+<p>An <em>atomic name</em> is an alphanumeric string that does not begin with a numeral. A (hierarchical) <em>identifier</em>, or <em>name</em>, consists of one or more <em>atomic names</em> separated by periods.</p>
+<p><strong>Examples</strong></p>
+<div class="highlight-lean"><div class="highlight"><pre><span></span><span class="n">def</span> <span class="n">foo</span> <span class="o">:=</span> <span class="mi">5</span>
+<span class="n">def</span> <span class="n">foo</span><span class="bp">.</span><span class="n">bar</span><span class="bp">.</span><span class="n">baz</span> <span class="o">:=</span> <span class="mi">6</span>
+<span class="n">def</span> <span class="n">foo</span><span class="bp">.</span><span class="n">γ1</span><span class="bp">.</span><span class="n">δ3</span> <span class="o">:=</span> <span class="mi">7</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="basic-declarations">
+<h2>Basic Declarations<a class="headerlink" href="#basic-declarations" title="Permalink to this headline">¶</a></h2>
+<p>All but the last of these provide straightforward ways of adding new objects to the environment:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">constant</span> <span class="pre">c</span> <span class="pre">:</span> <span class="pre">α</span></code> : declares a constant named <code class="docutils literal"><span class="pre">c</span></code> of type <code class="docutils literal"><span class="pre">α</span></code>, where <code class="docutils literal"><span class="pre">c</span></code> is an identifier</li>
+<li><code class="docutils literal"><span class="pre">axiom</span> <span class="pre">c</span> <span class="pre">:</span> <span class="pre">α</span></code> : alternative syntax for <code class="docutils literal"><span class="pre">constant</span></code></li>
+<li><code class="docutils literal"><span class="pre">def</span> <span class="pre">c</span> <span class="pre">:</span> <span class="pre">α</span> <span class="pre">:=</span> <span class="pre">t</span></code> : defines <code class="docutils literal"><span class="pre">c</span></code> to denote <code class="docutils literal"><span class="pre">t</span></code>, which should have type <code class="docutils literal"><span class="pre">α</span></code>.</li>
+<li><code class="docutils literal"><span class="pre">theorem</span> <span class="pre">c</span> <span class="pre">:</span> <span class="pre">p</span> <span class="pre">:=</span> <span class="pre">t</span></code> : similar to <code class="docutils literal"><span class="pre">def</span></code>, but intended to be used when <code class="docutils literal"><span class="pre">p</span></code> is a proposition.</li>
+<li><code class="docutils literal"><span class="pre">lemma</span> <span class="pre">c</span> <span class="pre">:</span> <span class="pre">p</span> <span class="pre">:=</span> <span class="pre">t</span></code> : alternative syntax for <code class="docutils literal"><span class="pre">theorem</span></code></li>
+<li><code class="docutils literal"><span class="pre">example</span> <span class="pre">:</span> <span class="pre">α</span> <span class="pre">:=</span> <span class="pre">t</span></code> : elaborates <code class="docutils literal"><span class="pre">t</span></code> and checks that it has sort <code class="docutils literal"><span class="pre">α</span></code> (often a proposition), without adding it to the environment.</li>
+</ul>
+<p><code class="docutils literal"><span class="pre">constant</span></code> and <code class="docutils literal"><span class="pre">axiom</span></code> have plural versions, <code class="docutils literal"><span class="pre">constants</span></code> and <code class="docutils literal"><span class="pre">axioms</span></code>.</p>
+<p>In <code class="docutils literal"><span class="pre">def</span></code>, <code class="docutils literal"><span class="pre">theorem</span></code>, and <code class="docutils literal"><span class="pre">lemma</span></code>, the type (<code class="docutils literal"><span class="pre">α</span></code> or <code class="docutils literal"><span class="pre">p</span></code>, respectively) can be omitted when it can be inferred by Lean. These elements can take a list of arguments before the colon, which are interpreted as a lambda abstraction.</p>
+<p><strong>Examples</strong></p>
+<div class="highlight-lean"><div class="highlight"><pre><span></span><span class="kn">constant</span>  <span class="n">c</span> <span class="o">:</span> <span class="bp">ℕ</span>
+<span class="kn">constants</span> <span class="o">(</span><span class="n">d</span> <span class="n">e</span> <span class="o">:</span> <span class="bp">ℕ</span><span class="o">)</span> <span class="o">(</span><span class="n">f</span> <span class="o">:</span> <span class="bp">ℕ</span> <span class="bp">→</span> <span class="bp">ℕ</span><span class="o">)</span>
+<span class="kn">axiom</span>     <span class="n">cd_eq</span> <span class="o">:</span> <span class="n">c</span> <span class="bp">=</span> <span class="n">d</span>
+
+<span class="n">def</span> <span class="n">foo</span> <span class="o">:</span> <span class="bp">ℕ</span> <span class="o">:=</span> <span class="mi">5</span>
+<span class="n">def</span> <span class="n">bar</span> <span class="o">:=</span> <span class="mi">6</span>
+<span class="n">def</span> <span class="n">baz</span> <span class="o">(</span><span class="n">x</span> <span class="n">y</span> <span class="o">:</span> <span class="bp">ℕ</span><span class="o">)</span> <span class="o">(</span><span class="n">s</span> <span class="o">:</span> <span class="n">list</span> <span class="bp">ℕ</span><span class="o">)</span> <span class="o">:=</span> <span class="o">[</span><span class="n">x</span><span class="o">,</span> <span class="n">y</span><span class="o">]</span> <span class="bp">++</span> <span class="n">s</span>
+
+<span class="kn">theorem</span> <span class="n">foo_eq_five</span> <span class="o">:</span> <span class="n">foo</span> <span class="bp">=</span> <span class="mi">5</span> <span class="o">:=</span> <span class="n">rfl</span>
+<span class="kn">lemma</span>   <span class="n">baz_lemma</span>   <span class="o">(</span><span class="n">x</span> <span class="n">y</span> <span class="o">:</span> <span class="bp">ℕ</span><span class="o">)</span> <span class="o">:</span> <span class="n">baz</span> <span class="n">x</span> <span class="n">y</span> <span class="o">[]</span> <span class="bp">=</span> <span class="o">[</span><span class="n">x</span><span class="o">,</span> <span class="n">y</span><span class="o">]</span> <span class="o">:=</span> <span class="n">rfl</span>
+<span class="kn">theorem</span> <span class="n">baz_theorem</span> <span class="o">(</span><span class="n">x</span> <span class="n">y</span> <span class="o">:</span> <span class="bp">ℕ</span><span class="o">)</span> <span class="o">:</span> <span class="n">baz</span> <span class="n">x</span> <span class="n">y</span> <span class="o">[]</span> <span class="bp">=</span> <span class="o">[</span><span class="n">x</span><span class="o">,</span> <span class="n">y</span><span class="o">]</span> <span class="o">:=</span> <span class="n">rfl</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="inductive-definitions">
+<span id="id1"></span><h2>Inductive Definitions<a class="headerlink" href="#inductive-definitions" title="Permalink to this headline">¶</a></h2>
+<p>(Give syntax for inductive definitions, including nested and mutual definitions.)</p>
+</div>
+<div class="section" id="some-basic-types">
+<h2>Some Basic Types<a class="headerlink" href="#some-basic-types" title="Permalink to this headline">¶</a></h2>
+<p>(Give syntax for natural numbers, bool, unit, product, sum, sigmas, subtypes, lists. Also: propositional connectives and quantifiers. Also bounded quantification. Also number systems, <code class="docutils literal"><span class="pre">fin</span></code>.)</p>
+</div>
+<div class="section" id="the-equation-compiler">
+<h2>The Equation Compiler<a class="headerlink" href="#the-equation-compiler" title="Permalink to this headline">¶</a></h2>
+<p>(Define the syntax, explaining patterns and inaccessible terms. Include well founded recursion.)</p>
+</div>
+<div class="section" id="match-expressions">
+<h2>Match Expressions<a class="headerlink" href="#match-expressions" title="Permalink to this headline">¶</a></h2>
+<p>(Give the syntax for this, as well as de-structuring <code class="docutils literal"><span class="pre">let</span></code> and <code class="docutils literal"><span class="pre">assume</span></code>.)</p>
+</div>
+<div class="section" id="structures-and-records">
+<h2>Structures and Records<a class="headerlink" href="#structures-and-records" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="infrastructure.html" class="btn btn-neutral float-right" title="Infrastructure" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="expressions.html" class="btn btn-neutral" title="Expressions" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, Jeremy Avigad.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'master',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>
